@@ -132,9 +132,9 @@ public abstract class AppDatabase extends RoomDatabase {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("CREATE VIRTUAL TABLE IF NOT EXISTS `productsFts` USING FTS4("
-                + "`name` TEXT, `description` TEXT, content=`products`)");
-            database.execSQL("INSERT INTO productsFts (`rowid`, `name`, `description`) "
-                + "SELECT `id`, `name`, `description` FROM products");
+                + "`name` TEXT, `description` TEXT,  'manufacturer' TEXT, content=`products`)");
+            database.execSQL("INSERT INTO productsFts (`rowid`, `name`, `description`, 'manufacturer') "
+                + "SELECT `id`, `name`, `description`, 'manufacturer' FROM products");
 
         }
     };

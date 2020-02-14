@@ -38,6 +38,8 @@ public class DataGenerator {
     private static final String[] DESCRIPTION = new String[]{
             "is finally here", "is recommended by Stan S. Stanman",
             "is the best sold product on Mêlée Island", "is \uD83D\uDCAF", "is ❤️", "is fine"};
+    private static final String[] MANUFACTURER = new String[]{
+            "Nike", "Marvel", "Hasbro"};
     private static final String[] COMMENTS = new String[]{
             "Comment 1", "Comment 2", "Comment 3", "Comment 4", "Comment 5", "Comment 6"};
 
@@ -49,6 +51,7 @@ public class DataGenerator {
                 ProductEntity product = new ProductEntity();
                 product.setName(FIRST[i] + " " + SECOND[j]);
                 product.setDescription(product.getName() + " " + DESCRIPTION[j]);
+                product.setManufacturer(product.getName() + product.getDescription() + " " + MANUFACTURER[j]);
                 product.setPrice(rnd.nextInt(240));
                 product.setId(FIRST.length * i + j + 1);
                 products.add(product);

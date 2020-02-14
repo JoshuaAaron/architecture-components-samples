@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "3e1095fcd74edb0edc506f32734f3379",
+    "identityHash": "c5182a929426cc520fd72fbb72b164db",
     "entities": [
       {
         "tableName": "products",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT, `description` TEXT, `price` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT, `description` TEXT, `price` INTEGER NOT NULL, `manufacturer` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -31,6 +31,12 @@
             "columnName": "price",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "manufacturer",
+            "columnName": "manufacturer",
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -57,11 +63,11 @@
         "contentSyncTriggers": [
           "CREATE TRIGGER IF NOT EXISTS room_fts_content_sync_productsFts_BEFORE_UPDATE BEFORE UPDATE ON `products` BEGIN DELETE FROM `productsFts` WHERE `docid`=OLD.`rowid`; END",
           "CREATE TRIGGER IF NOT EXISTS room_fts_content_sync_productsFts_BEFORE_DELETE BEFORE DELETE ON `products` BEGIN DELETE FROM `productsFts` WHERE `docid`=OLD.`rowid`; END",
-          "CREATE TRIGGER IF NOT EXISTS room_fts_content_sync_productsFts_AFTER_UPDATE AFTER UPDATE ON `products` BEGIN INSERT INTO `productsFts`(`docid`, `name`, `description`) VALUES (NEW.`rowid`, NEW.`name`, NEW.`description`); END",
-          "CREATE TRIGGER IF NOT EXISTS room_fts_content_sync_productsFts_AFTER_INSERT AFTER INSERT ON `products` BEGIN INSERT INTO `productsFts`(`docid`, `name`, `description`) VALUES (NEW.`rowid`, NEW.`name`, NEW.`description`); END"
+          "CREATE TRIGGER IF NOT EXISTS room_fts_content_sync_productsFts_AFTER_UPDATE AFTER UPDATE ON `products` BEGIN INSERT INTO `productsFts`(`docid`, `name`, `description`, `manufacturer`) VALUES (NEW.`rowid`, NEW.`name`, NEW.`description`, NEW.`manufacturer`); END",
+          "CREATE TRIGGER IF NOT EXISTS room_fts_content_sync_productsFts_AFTER_INSERT AFTER INSERT ON `products` BEGIN INSERT INTO `productsFts`(`docid`, `name`, `description`, `manufacturer`) VALUES (NEW.`rowid`, NEW.`name`, NEW.`description`, NEW.`manufacturer`); END"
         ],
         "tableName": "productsFts",
-        "createSql": "CREATE VIRTUAL TABLE IF NOT EXISTS `${TABLE_NAME}` USING FTS4(`name` TEXT, `description` TEXT, content=`products`)",
+        "createSql": "CREATE VIRTUAL TABLE IF NOT EXISTS `${TABLE_NAME}` USING FTS4(`name` TEXT, `description` TEXT, `manufacturer` TEXT, content=`products`)",
         "fields": [
           {
             "fieldPath": "name",
@@ -72,6 +78,12 @@
           {
             "fieldPath": "description",
             "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "manufacturer",
+            "columnName": "manufacturer",
             "affinity": "TEXT",
             "notNull": false
           }
@@ -146,7 +158,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3e1095fcd74edb0edc506f32734f3379')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c5182a929426cc520fd72fbb72b164db')"
     ]
   }
 }
